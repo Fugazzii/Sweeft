@@ -1,21 +1,21 @@
 import { Router } from "express";
 import UserController from "../controllers/user_controller";
+import { AuthMiddleware } from "../middlewares/auth";
 
 export default class UserRouter {
     private router: Router;
-    // controller: any; // !
+    controller: UserController; // !
 
     constructor() {
         this.router = Router();
-        // this.controller = new UserController();
+        this.controller = new UserController();
         this.setup();
     }
 
     private setup() {
-        this.router.get('/', () => console.log("zd"));
-        // this.router.post("/register", () => console.log("hello"));
-        // this.router.post("/login", this.controller.login);
-        // this.router.post("/reset", this.controller.reset_password);
+        this.router.post("/register", this.controller.register);
+        this.router.post("/login", this.controller.login);
+        this.router.post("/reset", AuthMiddleware.is_auth, this.controller.reset_password);
     }
 
     public get_routes(): Router {

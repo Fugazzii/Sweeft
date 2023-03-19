@@ -1,2 +1,8 @@
-GET http://localhost:4000/api/user
+POST http://localhost:4000/api/user/reset
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0MTc3YTIxNjJiMDY0YTc4MmNhMGM1OCJ9LCJpYXQiOjE2NzkyNjIzNDcsImV4cCI6MTY3OTI2NTk0N30.lRkiX_XWFS5SNFgiMfa8Oertcc5IfUavDjMCcCarBzw
+
+{
+    "email": "sichinavailia@gmail.com",
+    "password": "iliatesli"
+}

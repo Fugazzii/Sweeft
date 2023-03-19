@@ -1,6 +1,5 @@
 import { config } from "dotenv";
 import express, { Application } from "express";
-import bodyParser from "body-parser";
 import cors from "cors";
 import { connect } from "mongoose";
 import UserRouter from "./routes/user_router";
@@ -19,29 +18,19 @@ class App {
         this.MONGODB_URI = process.env.MONGODB_URI || "";
         this.app = express();
         this.user_router = new UserRouter();
-        this.setup_routes();
     }
 
     public init(): void {
         this.config();
         this.run_server();
         this.connect_db();
+        this.setup_routes();
     }
 
     private config(): void {
         this.app.use(cors());
         this.app.use(express.json());
-        this.app.use(bodyParser.urlencoded({ extended: false }));
-        this.app.use(bodyParser.json());
-        this.app.use((req, res, next) => {
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-            if (req.method === 'OPTIONS') {
-                res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE, GET");
-                return res.status(200).json({});
-            }
-            next();
-        });
+        this.app.use(express.urlencoded({ extended: true }));
     }
 
     private run_server() {
