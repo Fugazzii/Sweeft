@@ -35,6 +35,5 @@ export class AuthMiddleware {
         } catch (error) {
             return next(new Error(`Not authorized. ${error}`));
         }
-    
     }
 }

@@ -2,9 +2,15 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/user";
 import { compare } from "bcrypt";
 import jwt, { Secret } from "jsonwebtoken";
+import Category from "../models/category";
 // import SendEmail from "../utils/send_email";
 
 export default class UserController {
+
+    constructor() {
+        
+    }
+
     public async register(req: Request, res: Response, next: NextFunction) {
         const { email, password } = req.body;
         // let sender = new SendEmail();
@@ -12,9 +18,25 @@ export default class UserController {
             const user = await User.findOne({ email });
             /* Check if user exists */
             if(user) return res.status(404).json("User is already registered, please log in");
+            
             try {
                 const new_user = await User.create({ email, password });
-                res.status(201).json({ success: true, data: `User has successfully been added ${new_user}` })
+                const default_category = await Category
+                .create({ 
+                    name: "Default",
+                    user_email: email,
+                    history: {
+                        incomes: [],
+                        expenses: []
+                    }
+                });
+
+                res.status(201).json({ 
+                    success: true, 
+                    data: `
+                        User with default category ${default_category}
+                        has successfully been added ${new_user}` 
+                });
             } catch (error) {
                 res.status(422).json({ success: false, data: `Could not add user. ${error}` });
             }
@@ -68,7 +90,7 @@ export default class UserController {
             const is_match = await compare(password, user.password);
             if(!is_match) return res.status(400).json("Passwords do not match");
             
-            const payload = { user: { _id: user._id } };
+            const payload = { user: { _id: user._id, email: user.email } };
             const jwt_secret: Secret = process.env.JWT_SECRET || "";
             const token = jwt.sign(payload, jwt_secret, { expiresIn: "1h" });
             res.status(200).json({ token });

@@ -2,11 +2,14 @@ import { config } from "dotenv";
 import express, { Application } from "express";
 import cors from "cors";
 import { connect } from "mongoose";
+
 import UserRouter from "./routes/user_router";
+import CategoryRouter from "./routes/category_router";
 
 class App {
     app: Application;
     user_router: UserRouter;
+    category_router: CategoryRouter;
 
     PORT: number;
     MONGODB_URI: string;
@@ -18,6 +21,7 @@ class App {
         this.MONGODB_URI = process.env.MONGODB_URI || "";
         this.app = express();
         this.user_router = new UserRouter();
+        this.category_router = new CategoryRouter();
     }
 
     public init(): void {
@@ -49,8 +53,29 @@ class App {
 
     private setup_routes(): void {
         this.app.use('/api/user', this.user_router.get_routes());
+        this.app.use('/api/category', this.category_router.get_routes());
     }
 }
 
 const app = new App();
 app.init();
+
+
+/*
+
+*რეგისტრაცია, 
+TODO: ავტორიზაცია
+TODO: პაროლის აღდგენა.
+
+* მომხმარებელს უნდა შეეძლოს შექმნას პერსონალური ფინანსების კატეგორიები,
+* მაგალითად: ტრანსპორტი, კვება, განათლება და ა.შ. მომხმარებელს უნდა შეეძლოს
+* გადაარქვას კატეგორიას სახელი. ასევე უნდა შეეძლოს წაშალოს კატეგორია. 
+TODO: წაშლილი კატეგორიიდან ჩანაწერები არ უნდა წაიშალოს და გადავიდეს default კატეგორიაში.
+
+TODO: პერსონალური გასავალის და შემოსავლების დამატება, სასურველ ერთ ან რამდენიმე კატეგორიაში. 
+TODO: თუ ჯგუფი არ მიუთითა ჩანაწერი უნდა დაემატოს default კატეგორიაში.
+
+* ყოველ გასავალ / შემოსავალს უნდა ჰქონდეს მოკლე აღწერა
+* გასავალს შეიძლება ჰქონდეს სხვადასხვა სტატუსი: Processing და Completed.
+TODO: მომხარებელს ასევე უნდა შეეძლოს მოძებნოს ხარჯები, გაფილტროს და დაასორტიროს ხარჯები.
+*/
