@@ -1,7 +1,7 @@
 DELETE http://localhost:4000/api/category/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0MTg3NjNiMTY1YzMwNzJhYzZhMWQ5ZiIsImVtYWlsIjoic2ljaGluYXZhaWxpYUBnbWFpbC5jb20ifSwiaWF0IjoxNjc5MzMzMTA3LCJleHAiOjE2NzkzMzY3MDd9.I0R6LNho0Dzj3c6P3nvYSH4rEaDhteKTvm_k9Yfj3A4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0MTg3NjNiMTY1YzMwNzJhYzZhMWQ5ZiIsImVtYWlsIjoic2ljaGluYXZhaWxpYUBnbWFpbC5jb20ifSwiaWF0IjoxNjc5Mzk0ODQzLCJleHAiOjE2NzkzOTg0NDN9.piS8uCYnZTVHi8cokTmd4KrDoeZaTRyAEx44Ld5B7fo
 
 {
-    "name": "Transports"
+    "name": "Restaurant"
 }

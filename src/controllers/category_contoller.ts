@@ -39,7 +39,7 @@ export default class CategoryController {
     }
 
     public async delete(req: Request, res: Response, _next: NextFunction) {
-        const token = req?.headers?.authorization?.split(` `)[1] as string;
+        const token = req?.headers?.authorization?.split(" ")[1] as string;
         const { user: { email } } = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
         const { name } = req.body;
 

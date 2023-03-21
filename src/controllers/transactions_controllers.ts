@@ -10,7 +10,7 @@ export default class TransactionsController {
 
     public async add(req: Request, res: Response) {
         const token = req?.headers?.authorization?.split(` `)[1] as string;
-        const { user: { user_email } } = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
+        const { user: { email } } = verify(token, process.env.JWT_SECRET as string) as JwtPayload;
 
         const { names, quantity, description } = req.body;
 
@@ -23,18 +23,21 @@ export default class TransactionsController {
             date: new Date(),
         };
 
-        is_income ? new_transaction.status = Status.Processing : null;
+        /* I could not understand how to handle status, so Let's just randomize it ;D */
+        const randomize = () => Math.random() > 0.5 ? Status.Processing : Status.Completed; 
+        is_income ? new_transaction.status = randomize() : null;
 
+        /* Add data to default category if name was not provided */
         if(!names) {
             let updated;
             if(is_income) {
                 updated = await Category.updateOne(
-                    { user_email, name: "Default" },
+                    { user_email: email, name: "Default" },
                     { $push: { "history.incomes" : new_transaction } }
                 );
             } else {
                 updated = await Category.updateOne(
-                    { user_email, name: "Default" },
+                    { user_email: email, name: "Default" },
                     { $push: { "history.expenses" : new_transaction } }
                 );
             }
@@ -42,15 +45,16 @@ export default class TransactionsController {
             return res.status(203).json({ success: true, data: `Added to transaction ${updated}` });
         }
 
-        names.forEach(async (name: string) => {
+        /* Assume that we get data following format { "names": "cat1,cat2" } */
+        names.split(",").forEach(async (name: string) => {
             if(is_income) {
                 await Category.updateMany(
-                    { user_email, name },
+                    { user_email: email, name },
                     { $push: { "history.incomes" : new_transaction } }
                 );
             } else {
                 await Category.updateMany(
-                    { user_email, name },
+                    { user_email: email, name },
                     { $push: { "history.expenses" : new_transaction } }
                 );
             }
