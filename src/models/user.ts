@@ -1,5 +1,5 @@
-import { model, Schema, Model } from "mongoose";
-import { genSalt, hash, compare } from "bcrypt";
+import { model, Schema } from "mongoose";
+import { genSalt, hash } from "bcrypt";
 
 export interface UserDocument {
     email: string,
@@ -10,7 +10,7 @@ const UserSchema = new Schema<UserDocument>({
     email: {
         type: String,
         required: true,
-        min: 6
+        unique: true
     },
     password: {
         type: String,
@@ -18,6 +18,7 @@ const UserSchema = new Schema<UserDocument>({
     }
 });
 
+/* Hash password before creating user */
 UserSchema.pre('save', async function (next: any) {
     if (!this.isModified('password')) {
         return next();

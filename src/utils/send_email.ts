@@ -1,35 +1,31 @@
-import { createTransport } from "nodemailer";
+import SibApiV3Sdk from 'sib-api-v3-sdk';
 
-type Options = {
-    from: string,
-    to?: string,
+interface MailOptions {
+    to: string,
     subject: string,
-    text: string
-};
-
-export default class SendEmail {
-    transporter: any;
-
-    constructor() {
-        this.transporter = createTransport({
-            host: "smtp.freeuni.edu.ge",
-            auth: {
-                user: "isich21@freeuni.edu.ge",
-                pass: "IliamagariaIliamagaria"
-            }   
-        });
-    }
-
-    public async send(options: any) {
-        let mail_options: Options = {
-            from: "isich21@freeuni.edu.ge", 
-            to: options.to,
-            subject: options.subject,
-            text: options.text
-        };
-
-        await this.transporter.sendMail(mail_options, function(err: any, info: any) {
-            err ? console.log(err) : console.log(info);
-        })
-    }
+    html: string
 }
+
+export const SendMail = async ({ to, subject, html }: MailOptions) => {
+    const apiKey = process.env.API_KEY;
+
+    const defaultClient = SibApiV3Sdk.ApiClient.instance;
+    defaultClient.authentications['api-key'].apiKey = apiKey;
+    
+    const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+    
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.to = [{ email: to as string }];
+    sendSmtpEmail.sender = { email: process.env.SENDER_EMAIL, name: 'Sweeft intern' };
+    sendSmtpEmail.subject = subject;
+    sendSmtpEmail.htmlContent = html;
+    
+    await apiInstance.sendTransacEmail(sendSmtpEmail)
+        .then(function(data: any) {
+            console.log('Email sent successfully.');
+        })
+        .catch(function(error: any) {
+            console.error('Error sending email:', error);
+        });
+}
+

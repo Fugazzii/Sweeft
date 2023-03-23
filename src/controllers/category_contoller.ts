@@ -46,7 +46,7 @@ export default class CategoryController {
         try {
             const { history } = await Category.findOne({ name, user_email: email }) as CategoryDocument;
             
-            const move_to_default = await Category.updateOne(
+            const _move_to_default = await Category.updateOne(
                 { name: "Default", user_email: email },
                 { 
                     $push: { 

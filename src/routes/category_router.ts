@@ -8,9 +8,9 @@ export default class CategoryRouter {
     private category_controller: CategoryController;
     private transactions_controller: TransactionsController;
     constructor() {
-        this.router = Router();
         this.category_controller = new CategoryController();
         this.transactions_controller = new TransactionsController();
+        this.router = Router();
         this.setup_category_routes();
         this.setup_transactions_routes();
     }
@@ -24,6 +24,26 @@ export default class CategoryRouter {
 
     private setup_transactions_routes() {
         this.router.put("/add_transaction", middleware.is_auth, this.transactions_controller.add);
+        this.router.get(
+            "/search_by_income/:email/:order",
+            middleware.is_auth,
+            this.transactions_controller.search_by_incomes
+        );
+        this.router.get(
+            "/search_by_expense/:email/:order",
+            middleware.is_auth,
+            this.transactions_controller.search_by_expenses
+        );
+        this.router.get(
+            "/search_by_status/:email", 
+            middleware.is_auth,
+            this.transactions_controller.search_by_status
+        );
+        this.router.get(
+            "/search_by_date/:email", 
+            middleware.is_auth,
+            this.transactions_controller.search_by_date
+        );
     }
 
     public get_routes(): Router {

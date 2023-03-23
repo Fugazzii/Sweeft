@@ -1,7 +1,8 @@
-DELETE http://localhost:4000/api/category/delete
+GET http://localhost:4000/api/category/search_by_date/sichinavailia@gmail.com
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0MTg3NjNiMTY1YzMwNzJhYzZhMWQ5ZiIsImVtYWlsIjoic2ljaGluYXZhaWxpYUBnbWFpbC5jb20ifSwiaWF0IjoxNjc5Mzk0ODQzLCJleHAiOjE2NzkzOTg0NDN9.piS8uCYnZTVHi8cokTmd4KrDoeZaTRyAEx44Ld5B7fo
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjY0MWNiYzM0MjVmNjMzMTgxMzE4MmU1NSIsImVtYWlsIjoic2ljaGluYXZhaWxpYUBnbWFpbC5jb20ifSwiaWF0IjoxNjc5NjEwMjU3LCJleHAiOjE2Nzk2MTM4NTd9.R7Hbc_1tM-PJA52kQEQ-ejzu1UkfKOMfj3z00seQTjA
 
 {
-    "name": "Restaurant"
+    "quantity": "-89900",
+    "description": "ilia magaria"
 }

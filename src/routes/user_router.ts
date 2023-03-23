@@ -1,6 +1,5 @@
 import { Router } from "express";
 import UserController from "../controllers/user_controller";
-import { AuthMiddleware } from "../middlewares/auth";
 
 export default class UserRouter {
     private router: Router;
@@ -14,8 +13,10 @@ export default class UserRouter {
 
     private setup() {
         this.router.post("/register", this.controller.register);
+        this.router.post("/verify/:hash_info", this.controller.verify_register);
         this.router.post("/login", this.controller.login);
-        this.router.post("/reset", AuthMiddleware.is_auth, this.controller.reset_password);
+        this.router.post("/reset", this.controller.reset_password);
+        this.router.put("/reset/:token", this.controller.change_password);
     }
 
     public get_routes(): Router {
