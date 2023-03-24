@@ -1,7 +1,6 @@
-POST http://localhost:4000/api/user/login
+PUT http://localhost:4000/api/user/reset/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbiI6InNpY2hpbmF2YWlsaWFAZ21haWwuY29tIGRlYjg5NDIzODFiMjE3NTFkNmM0OWU0ZGMyMmJlYThhIiwiaWF0IjoxNjc5NjM2OTEyLCJleHAiOjE2Nzk2Mzc1MTJ9.GzS1ZRZuB4DpgEjIsMgbF03E7jl4fArCcZJbAct4CH4
 Content-Type: application/json
 
 {
-    "email": "sichinavailia@gmail.com",
-    "password": "123456789"
+    "new_password": "iliamagaria"
 }

@@ -38,7 +38,7 @@ export default class UserController {
         const hash_info = jwt.sign(payload, process.env.JWT_SECRET as string, { expiresIn: "3hr"});
 
         const PORT = process.env.PORT as string;
-        const verification_url = `http://${process.env.DOMAIN}:${PORT}/api/user/reset_token/$${reset_code}{PORT}/api/user/verify/${hash_info}`;
+        const verification_url = `http://${process.env.DOMAIN}:${PORT}/api/user/verify/${hash_info}`;
 
         const msg = `<h1>Verify our email</h1>
         <p>Please go to this link</p>
